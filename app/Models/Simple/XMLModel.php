@@ -1,5 +1,9 @@
 <?php
 namespace Simple\Models;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 /**
  * SimpleModel persisted as XML document
  *  
