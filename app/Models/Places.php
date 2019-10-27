@@ -1,22 +1,13 @@
 <?php
 
- namespace App\Models\Places;
+    namespace App\Models;
     use App\Models\Simple\XMLModel;
     class Places extends XMLModel
     {
-        protected $origin   =  '/data/xmldata.xml';
+        protected $_origin   =  WRITEPATH . 'data/xmldata.xml';
         protected  $keyField ='id';
-        protected $validationRules="";
+        protected $validationRules=[];
 
 
-        public function findAll()
-	{
-		return $this->data;
-	}
-	public function find($id = null)
-	{
-		if ( ! empty($id) && isset($this->data[$id]))
-			return $this->data[$id];
-		return null;
-	}
+	
     }  

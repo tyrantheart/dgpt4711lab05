@@ -1,6 +1,5 @@
 <?php
-namespace App\Models\Simple;
-
+namespace Simple\Models;
 /**
  * SimpleModel persisted as XML document
  *  
@@ -16,17 +15,14 @@ class XMLModel extends SimpleModel
 	function __construct($origin = null, $keyfield = 'id', $entity = null)
 	{
 		parent::__construct();
-
 		// and populate the collection
 		$this->load();
 	}
-
 	/**
 	 * Load the collection state from an XML document
 	 */
 	protected function load()
 	{
-
 		/*
 		if (($tasks = simplexml_load_file($this->_origin)) !== FALSE)
 		{
@@ -40,43 +36,33 @@ class XMLModel extends SimpleModel
 				$record->deadline = (string) $task->deadline;
 				$record->status = (int) $task->status;
 				$record->flag = (int) $task->flag;
-
 				$this->_data[$record->id] = $record;
 			}
 		}
-
 		// rebuild the keys table
 		$this->reindex();
-
 		*/
 		if (file_exists(realpath($this->_origin))) {
-
 		    $this->xml = simplexml_load_file(realpath($this->_origin));
 		    if ($this->xml === false) {
 			      // error so redirect or handle error
 			      header('location: /404.php');
 			      exit;
 			}
-
 		    $xmlarray =$this->xml;
-
 		    //if it is empty; 
 		    if(empty($xmlarray)) {
 		    	return;
 		    }
-
 		    //get all xmlonjects into $xmlcontent
 		    $rootkey = key($xmlarray);
 		    $xmlcontent = (object)$xmlarray->$rootkey;
-
 		    $keyfieldh = array();
 		    $first = true;
-
 		    //if it is empty; 
 		    if(empty($xmlcontent)) {
 		    	return;
 		    }
-
 		    $dataindex = 1;
 		    $first = true;
 		    foreach ($xmlcontent as $oj) {
@@ -88,28 +74,22 @@ class XMLModel extends SimpleModel
 			    	$this->_fields = $keyfieldh;
 			    }
 		    	$first = false; 
-
 		    	//var_dump($oj->children());
-		    	$one = new stdClass();
-
+		    	$one = new \stdClass();
 		    	//get objects one by one
 		    	foreach ($oj as $key => $value) {
 		    		$one->$key = (string)$value;
 		    	}
 		    	$this->_data[$dataindex++] =$one; 
 		    }	
-
-
 		 	//var_dump($this->_data);
 		} else {
 		    exit('Failed to open the xml file.');
 		}
-
 		// --------------------
 		// rebuild the keys table
 		$this->reindex();
 	}
-
 	/**
 	 * Store the collection state s an XML document
 	 */
