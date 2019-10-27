@@ -1,7 +1,5 @@
 <?php
-
-namespace Simple\Models;
-
+namespace App\Models\Simple;
 /**
  * Class SimpleModel
  *
@@ -12,66 +10,55 @@ namespace Simple\Models;
  */
 class SimpleModel
 {
-
 	//--------------------------------------------------------------------
 	// Properties that might be over-ridden by a user model
 	//--------------------------------------------------------------------
-
 	/**
 	 * Persistent path & filename for this model,
 	 *
 	 * @var string
 	 */
 	protected $origin = '';
-
 	/**
 	 * Name of the primary key field.
 	 *
 	 * @var string
 	 */
 	protected $keyField = 'id';
-
 	/**
 	 * Persistence-specific name if an entity in this collection.
 	 * 
 	 * @var string
 	 */
 	protected $entity;
-
 	/**
 	 * Rules used to validate data.
 	 *
 	 * @var array
 	 */
 	protected $validationRules = [];
-
 	/**
 	 * Any custom error messages to be used during data validation.
 	 *
 	 * @var array
 	 */
 	protected $validationMessages = [];
-
 	//--------------------------------------------------------------------
 	// Properties that should not be over-ridden
 	//--------------------------------------------------------------------
-
 	/**
 	 * Place to hold all the data in this collection.
 	 * 
 	 * @var array
 	 */
 	protected $data = [];
-
 	/**
 	 * Fetadata about this collection (field names)
 	 * 
 	 * @var array
 	 */
 	protected $fields;
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Model constructor.
 	 * 
@@ -92,13 +79,10 @@ class SimpleModel
 			$this->keyField = $keyField;
 		if ( ! empty($entity))
 			$this->entity = $entity;
-
 		// start with an empty collection
 		$this->_data = []; // an array of objects
 		$this->fields = []; // an array of strings
-
 	}
-
 	/**
 	 * Load the collection state appropriately, depending on persistence choice.
 	 * OVER-RIDE THIS METHOD in persistence choice implementations
@@ -111,7 +95,6 @@ class SimpleModel
 		// rebuild the keys table
 		$this->reindex();
 	}
-
 	/**
 	 * Store the collection state appropriately, depending on persistence choice.
 	 * OVER-RIDE THIS METHOD in persistence choice implementations
@@ -124,7 +107,6 @@ class SimpleModel
 		// Your code goes here
 		// --------------------
 	}
-
 	/**
 	 *  Rebuild and resort the ordered data copy
 	 */
@@ -144,11 +126,9 @@ class SimpleModel
 		// reset the cursor
 		reset($this->data);
 	}
-
 	//--------------------------------------------------------------------
 	// FINDERS
 	//--------------------------------------------------------------------
-
 	/**
 	 * Fetches the collection element with key matching $id.
 	 *
@@ -160,7 +140,6 @@ class SimpleModel
 	{
 		return (isset($this->data[$key])) ? $this->data[$key] : null;
 	}
-
 	/**
 	 * Works with the current Query Builder instance to return
 	 * all results, while optionally limiting them.
@@ -174,9 +153,7 @@ class SimpleModel
 	{
 		return $this->data;
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Returns the first row of the result set. Will take any previous
 	 * Query Builder calls into account when determining the result set.
@@ -187,11 +164,9 @@ class SimpleModel
 	{
 		return array_values($this->data)[0];
 	}
-
 	//--------------------------------------------------------------------
 	// CRUD
 	//--------------------------------------------------------------------
-
 	/**
 	 * A convenience method that will attempt to determine whether the
 	 * data should be inserted or updated. Will work with either
@@ -216,9 +191,7 @@ class SimpleModel
 			$this->store();
 		}
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Inserts data into the current table. If an object is provided,
 	 * it will attempt to convert it to an array.
@@ -233,14 +206,11 @@ class SimpleModel
 	{
 		// convert object from associative array, if needed
 		$record = (is_array($record)) ? (object) $record : $record;
-
 		// update the DB table appropriately
 		$key = $record->{$this->_keyfield};
 		$this->_data[$key] = $record;
-
 		$this->store();
 	}
-
 	/**
 	 * Updates a single record in $this->table. If an object is provided,
 	 * it will attempt to convert it into an array.
@@ -263,7 +233,6 @@ class SimpleModel
 			$this->store();
 		}
 	}
-
 	/**
 	 * Deletes a single record from $this->table where $id matches
 	 * the table's primaryKey
@@ -282,7 +251,6 @@ class SimpleModel
 			$this->store();
 		}
 	}
-
 	// Determine if a key exists
 	function exists($key, $key2 = null)
 	{
@@ -300,9 +268,7 @@ class SimpleModel
 	{
 		$this->validationMessages = $validationMessages;
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Allows to set field wise validation message.
 	 * It could be used when you have to change default or override current validate messages.
@@ -316,9 +282,7 @@ class SimpleModel
 	{
 		$this->validationMessages[$field] = $fieldMessages;
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Removes any rules that apply to fields that have not been set
 	 * currently so that rules don't block updating when only updating
@@ -336,7 +300,6 @@ class SimpleModel
 		{
 			return [];
 		}
-
 		foreach ($rules as $field => $rule)
 		{
 			if ( ! array_key_exists($field, $data))
@@ -344,13 +307,9 @@ class SimpleModel
 				unset($rules[$field]);
 			}
 		}
-
 		return $rules;
 	}
-
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Returns the model's defined validation rules so that they
 	 * can be used elsewhere, if needed.
@@ -362,7 +321,6 @@ class SimpleModel
 	public function getValidationRules(array $options = []): array
 	{
 		$rules = $this->validationRules;
-
 		if (isset($options['except']))
 		{
 			$rules = array_diff_key($rules, array_flip($options['except']));
@@ -371,12 +329,9 @@ class SimpleModel
 		{
 			$rules = array_intersect_key($rules, array_flip($options['only']));
 		}
-
 		return $rules;
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Returns the model's define validation messages so they
 	 * can be used elsewhere, if needed.
@@ -387,9 +342,7 @@ class SimpleModel
 	{
 		return $this->validationMessages;
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Override countAllResults to account for soft deleted accounts.
 	 *
@@ -404,14 +357,11 @@ class SimpleModel
 		{
 			$this->builder()->where($this->table . '.' . $this->deletedField, null);
 		}
-
 		return $this->builder()->countAllResults($reset, $test);
 	}
-
 	//--------------------------------------------------------------------
 	// Magic
 	//--------------------------------------------------------------------
-
 	/**
 	 * Provides/instantiates the builder/db connection and model's table/primary key names and return type.
 	 *
@@ -433,10 +383,8 @@ class SimpleModel
 		{
 			return $this->builder()->$name;
 		}
-
 		return null;
 	}
-
 	/**
 	 * Checks for the existence of properties across this model, builder, and db connection.
 	 *
@@ -458,12 +406,9 @@ class SimpleModel
 		{
 			return true;
 		}
-
 		return false;
 	}
-
 	//--------------------------------------------------------------------
-
 	/**
 	 * Provides direct access to method in the builder (if available)
 	 * and the database connection.
@@ -476,7 +421,6 @@ class SimpleModel
 	public function __call(string $name, array $params)
 	{
 		$result = null;
-
 		if (method_exists($this->db, $name))
 		{
 			$result = $this->db->$name(...$params);
@@ -485,7 +429,6 @@ class SimpleModel
 		{
 			$result = $builder->$name(...$params);
 		}
-
 		// Don't return the builder object unless specifically requested
 		//, since that will interrupt the usability flow
 		// and break intermingling of model and builder methods.
@@ -497,9 +440,7 @@ class SimpleModel
 		{
 			return $result;
 		}
-
 		return $this;
 	}
-
 	//--------------------------------------------------------------------
 }
