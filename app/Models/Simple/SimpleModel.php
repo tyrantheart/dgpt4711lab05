@@ -1,5 +1,11 @@
 <?php
+<<<<<<< HEAD
 namespace App\Models\Simple;
+=======
+
+namespace App\Models\Simple;
+
+>>>>>>> master
 /**
  * Class SimpleModel
  *
@@ -67,10 +73,10 @@ class SimpleModel
 	 * subclasses, invoke the parent constructor and then $this->load();
 	 * 
 	 * @param string $origin Persistent name of a collection
-	 * @param string $keyfield  Name of the primary key field
+	 * @param string $keyField  Name of the primary key field
 	 * @param string $entity	Entity name meaningful to the persistence
 	 */
-	public function __construct($origin = null, $keyfield = 'id', $entity = null)
+	public function __construct($origin = null, $keyField = 'id', $entity = null)
 	{
 		// over-ride any properties
 		if ( ! empty($origin))
@@ -80,7 +86,7 @@ class SimpleModel
 		if ( ! empty($entity))
 			$this->entity = $entity;
 		// start with an empty collection
-		$this->_data = []; // an array of objects
+		$this->data = []; // an array of objects
 		$this->fields = []; // an array of strings
 	}
 	/**
@@ -116,7 +122,7 @@ class SimpleModel
 		$results = array();
 		foreach ($this->data as $old => $record)
 		{
-			$key = $record->{$this->keyfield};
+			$key = $record->{$this->keyField};
 			$results[$key] = $record;
 		}
 		// sort the collection
@@ -138,7 +144,7 @@ class SimpleModel
 	 */
 	public function find($id = null)
 	{
-		return (isset($this->data[$key])) ? $this->data[$key] : null;
+		return (isset($this->data[$id])) ? (array) $this->data[$id] : null;
 	}
 	/**
 	 * Works with the current Query Builder instance to return
@@ -184,10 +190,10 @@ class SimpleModel
 		// convert object from associative array, if needed
 		$record = (is_array($record)) ? (object) $record : $record;
 		// update the collection appropriately
-		$key = $record->{$this->_keyfield};
-		if (isset($this->_data[$key]))
+		$key = $record->{$this->keyField};
+		if (isset($this->data[$key]))
 		{
-			$this->_data[$key] = $record;
+			$this->data[$key] = $record;
 			$this->store();
 		}
 	}
@@ -207,8 +213,14 @@ class SimpleModel
 		// convert object from associative array, if needed
 		$record = (is_array($record)) ? (object) $record : $record;
 		// update the DB table appropriately
+<<<<<<< HEAD
 		$key = $record->{$this->_keyfield};
 		$this->_data[$key] = $record;
+=======
+		$key = $record->{$this->keyField};
+		$this->data[$key] = $record;
+
+>>>>>>> master
 		$this->store();
 	}
 	/**
@@ -226,10 +238,10 @@ class SimpleModel
 		// convert object from associative array, if needed
 		$record = (is_array($record)) ? (object) $record : $record;
 		// update the collection appropriately
-		$key = $record->{$this->_keyfield};
-		if (isset($this->_data[$key]))
+		$key = $record->{$this->keyField};
+		if (isset($this->data[$key]))
 		{
-			$this->_data[$key] = $record;
+			$this->data[$key] = $record;
 			$this->store();
 		}
 	}
@@ -245,16 +257,16 @@ class SimpleModel
 	 */
 	public function delete($id = null, bool $purge = false)
 	{
-		if (isset($this->_data[$key]))
+		if (isset($this->data[$id]))
 		{
-			unset($this->_data[$key]);
+			unset($this->data[$id]);
 			$this->store();
 		}
 	}
 	// Determine if a key exists
-	function exists($key, $key2 = null)
+	function exists($key)
 	{
-		return isset($this->_data[$key]);
+		return isset($this->data[$key]);
 	}
 	/**
 	 * Allows to set validation messages.
@@ -353,11 +365,15 @@ class SimpleModel
 	 */
 	public function countAllResults(bool $reset = true, bool $test = false)
 	{
+<<<<<<< HEAD
 		if ($this->tempUseSoftDeletes === true)
 		{
 			$this->builder()->where($this->table . '.' . $this->deletedField, null);
 		}
 		return $this->builder()->countAllResults($reset, $test);
+=======
+		return count($this->data);
+>>>>>>> master
 	}
 	//--------------------------------------------------------------------
 	// Magic
@@ -375,6 +391,7 @@ class SimpleModel
 		{
 			return $this->{$name};
 		}
+<<<<<<< HEAD
 		elseif (isset($this->db->$name))
 		{
 			return $this->db->$name;
@@ -383,6 +400,8 @@ class SimpleModel
 		{
 			return $this->builder()->$name;
 		}
+=======
+>>>>>>> master
 		return null;
 	}
 	/**
@@ -398,6 +417,7 @@ class SimpleModel
 		{
 			return true;
 		}
+<<<<<<< HEAD
 		elseif (isset($this->db->$name))
 		{
 			return true;
@@ -444,3 +464,10 @@ class SimpleModel
 	}
 	//--------------------------------------------------------------------
 }
+=======
+		return false;
+	}
+
+
+}
+>>>>>>> master
