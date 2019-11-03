@@ -1,16 +1,11 @@
 <?php
 namespace App\Models\Simple;
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 /**
  * SimpleModel persisted as XML document
  *  
  */
 class XMLModel extends SimpleModel
 {
-
 	/**
 	 * Constructor.
 	 * @param string $origin Filename of the CSV file
@@ -19,12 +14,7 @@ class XMLModel extends SimpleModel
 	 */
 	function __construct($origin = null, $keyField = 'id', $entity = null)
 	{
-<<<<<<< HEAD
-		parent::__construct();
-=======
 		parent::__construct($origin, $keyField, $entity);
-
->>>>>>> master
 		// and populate the collection
 		$this->load();
 	}
@@ -33,76 +23,9 @@ class XMLModel extends SimpleModel
 	 */
 	protected function load()
 	{
-<<<<<<< HEAD
-		/*
-		if (($tasks = simplexml_load_file($this->_origin)) !== FALSE)
-		{
-			foreach ($tasks as $task) {
-				$record = new stdClass();
-				$record->id = (int) $task->id;
-				$record->task = (string) $task->task;
-				$record->priority = (int) $task->priority;
-				$record->size = (int) $task->size;
-				$record->group = (int) $task->group;
-				$record->deadline = (string) $task->deadline;
-				$record->status = (int) $task->status;
-				$record->flag = (int) $task->flag;
-				$this->_data[$record->id] = $record;
-			}
-		}
-		// rebuild the keys table
-		$this->reindex();
-		*/
-		if (file_exists(realpath($this->_origin))) {
-		    $this->xml = simplexml_load_file(realpath($this->_origin));
-		    if ($this->xml === false) {
-			      // error so redirect or handle error
-			      header('location: /404.php');
-			      exit;
-			}
-		    $xmlarray =$this->xml;
-		    //if it is empty; 
-		    if(empty($xmlarray)) {
-		    	return;
-		    }
-		    //get all xmlonjects into $xmlcontent
-		    $rootkey = key($xmlarray);
-		    $xmlcontent = (object)$xmlarray->$rootkey;
-		    $keyfieldh = array();
-		    $first = true;
-		    //if it is empty; 
-		    if(empty($xmlcontent)) {
-		    	return;
-		    }
-		    $dataindex = 1;
-		    $first = true;
-		    foreach ($xmlcontent as $oj) {
-		    	if($first){
-			    	foreach ($oj as $key => $value) {
-			    		$keyfieldh[] = $key;	
-			    		//var_dump((string)$value);
-			    	}
-			    	$this->_fields = $keyfieldh;
-			    }
-		    	$first = false; 
-		    	//var_dump($oj->children());
-		    	$one = new \stdClass();
-		    	//get objects one by one
-		    	foreach ($oj as $key => $value) {
-		    		$one->$key = (string)$value;
-		    	}
-		    	$this->_data[$dataindex++] =$one; 
-		    }	
-		 	//var_dump($this->_data);
-		} else {
-		    exit('Failed to open the xml file.');
-		}
-=======
 		if (file_exists(realpath($this->origin)))
 		{
-
 			$xml = simplexml_load_file(realpath($this->origin));
-
 			$first = true;
 			foreach ($xml->children() as $child)
 			{
@@ -121,8 +44,6 @@ class XMLModel extends SimpleModel
 				$first = false;
 			}
 		}
-
->>>>>>> master
 		// --------------------
 		// rebuild the keys table
 		$this->reindex();
@@ -146,13 +67,8 @@ class XMLModel extends SimpleModel
 			}
 			$data->appendChild($record);
 		}
-<<<<<<< HEAD
-	}}
-=======
 		$xmlDoc->appendChild($data);
 		$xmlDoc->save($this->origin);
 		//echo $xmlDoc->saveXML();
 	}
-
 }
->>>>>>> master

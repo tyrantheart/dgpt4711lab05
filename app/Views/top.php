@@ -1,0 +1,10 @@
+<!doctype html>
+     helper('form');
+<html>
+	<head>
+		<title>top</title>
+	</head>
+	<body>
+            <p><img src="/image/{image}"/></p>
+	</body>
+</html>

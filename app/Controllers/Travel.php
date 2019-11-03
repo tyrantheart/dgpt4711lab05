@@ -6,32 +6,24 @@ class Travel extends BaseController
     public function index()
     {
         // connect to the model
-    $places = new \App\Models\Places();
-        // retrieve all the records
-    $records = $places->findAll();
-
+    $model = new \App\Models\Places();
+    $headings = $model->fields;
+    $data = $model->findAll();
+   
+     $table = new \CodeIgniter\View\Table();
+     unset($headings[count($headings)-1]);
+     $table->setHeading($headings);
+     
+     foreach ($data as $key => $value) {
+     $table->addRow([$value->id, $value->name, $value->description,$value->link]);
+}
      $view = \Config\Services::renderer();
      $output = $view->render('top') .
-     $view->render('content') .
+             
+     $table->generate().
      $view->render('bottom');
-     $table = new \CodeIgniter\View\Table();
-     $table->setHeading('id', 'name', 'description','link');
 
-     
-    foreach ($records as $key=>$id){ 
-        $table->addRow(['1', 'Hong Kong', 'A special administrative region on the eastern side of the Pearl River estuary in southern China.','http://www.discoverhongkong.com/eng/index.jsp']);
-    }
-    foreach ($records as $key=>$name){ 
-        
-    }
-    foreach ($records as $key=>$description){ 
-        
-    }
-    foreach ($records as $key=>$link){ 
-        
-    }
-     $content =  $table->generate(); //??
-    return $output;
+       return $output;
     }
     public function showme($id)
     {

@@ -1,11 +1,5 @@
 <?php
-<<<<<<< HEAD
 namespace App\Models\Simple;
-=======
-
-namespace App\Models\Simple;
-
->>>>>>> master
 /**
  * Class SimpleModel
  *
@@ -213,14 +207,8 @@ class SimpleModel
 		// convert object from associative array, if needed
 		$record = (is_array($record)) ? (object) $record : $record;
 		// update the DB table appropriately
-<<<<<<< HEAD
-		$key = $record->{$this->_keyfield};
-		$this->_data[$key] = $record;
-=======
 		$key = $record->{$this->keyField};
 		$this->data[$key] = $record;
-
->>>>>>> master
 		$this->store();
 	}
 	/**
@@ -365,15 +353,7 @@ class SimpleModel
 	 */
 	public function countAllResults(bool $reset = true, bool $test = false)
 	{
-<<<<<<< HEAD
-		if ($this->tempUseSoftDeletes === true)
-		{
-			$this->builder()->where($this->table . '.' . $this->deletedField, null);
-		}
-		return $this->builder()->countAllResults($reset, $test);
-=======
 		return count($this->data);
->>>>>>> master
 	}
 	//--------------------------------------------------------------------
 	// Magic
@@ -391,17 +371,6 @@ class SimpleModel
 		{
 			return $this->{$name};
 		}
-<<<<<<< HEAD
-		elseif (isset($this->db->$name))
-		{
-			return $this->db->$name;
-		}
-		elseif (isset($this->builder()->$name))
-		{
-			return $this->builder()->$name;
-		}
-=======
->>>>>>> master
 		return null;
 	}
 	/**
@@ -417,57 +386,6 @@ class SimpleModel
 		{
 			return true;
 		}
-<<<<<<< HEAD
-		elseif (isset($this->db->$name))
-		{
-			return true;
-		}
-		elseif (isset($this->builder()->$name))
-		{
-			return true;
-		}
 		return false;
 	}
-	//--------------------------------------------------------------------
-	/**
-	 * Provides direct access to method in the builder (if available)
-	 * and the database connection.
-	 *
-	 * @param string $name
-	 * @param array  $params
-	 *
-	 * @return Model|null
-	 */
-	public function __call(string $name, array $params)
-	{
-		$result = null;
-		if (method_exists($this->db, $name))
-		{
-			$result = $this->db->$name(...$params);
-		}
-		elseif (method_exists($builder = $this->builder(), $name))
-		{
-			$result = $builder->$name(...$params);
-		}
-		// Don't return the builder object unless specifically requested
-		//, since that will interrupt the usability flow
-		// and break intermingling of model and builder methods.
-		if ($name !== 'builder' && empty($result))
-		{
-			return $result;
-		}
-		if ($name !== 'builder' && ! $result instanceof BaseBuilder)
-		{
-			return $result;
-		}
-		return $this;
-	}
-	//--------------------------------------------------------------------
 }
-=======
-		return false;
-	}
-
-
-}
->>>>>>> master
