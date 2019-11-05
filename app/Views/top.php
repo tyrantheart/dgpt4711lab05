@@ -5,6 +5,6 @@
 		<title>top</title>
 	</head>
 	<body>
-            <p><img src="/image/{image}"/></p>
+           <form method="post" accept-charset="utf-8" action="http://example.com/index.php/email/send">
 	</body>
 </html>
